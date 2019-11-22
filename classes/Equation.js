@@ -5,6 +5,7 @@ class Equation {
     this.digitArray = this.numberAsString.split("").map(el => parseInt(el));
 
     this.setNumber = this.setNumber.bind(this);
+    this.checkEquation = this.checkEquation.bind(this);
   }
 
   setNumber(newNumber) {
@@ -14,7 +15,7 @@ class Equation {
     this.digitArray = this.numberAsString.split("").map(el => parseInt(el));
   }
 
-  checkEquation() {
+  getDigits() {
     // Grab all digits
     var digitDOMElements = document.getElementsByClassName("digit");
     var digitArray = [];
@@ -24,9 +25,10 @@ class Equation {
       digitArray.push(currentDigit);
     }
 
-    // Grab the digit right of the equals sign
-    var digitRightOfEquals = digitArray.pop();
+    return digitArray;
+  }
 
+  getOperators() {
     // Grab operators
     var operatorDOMElements = document.getElementsByClassName("operator");
     var operatorArray = [];
@@ -36,9 +38,64 @@ class Equation {
       operatorArray.push(currentOperator);
     }
 
-    console.log(digitArray);
-    console.log(digitRightOfEquals);
-    console.log(operatorArray);
+    return operatorArray;
+  }
+
+  checkEquation() {
+    var digitsArray = this.getDigits();
+    var digitRightOfEquals = digitsArray.pop();
+    var operatorsArray = this.getOperators();
+
+    // First we run through mults and divides
+    for (var operatorIndex = 0; operatorIndex < operatorsArray.length; operatorIndex++) {
+
+      if (operatorsArray[operatorIndex] === "*" || operatorsArray[operatorIndex] === "/") {
+
+        var firstNumber = parseFloat(digitsArray[operatorIndex]);
+        var secondNumber = parseFloat(digitsArray[operatorIndex + 1]);
+
+        switch (operatorsArray[operatorIndex]) {
+          case "*":
+            digitsArray[operatorIndex + 1] = firstNumber * secondNumber;
+            break;
+          case "/":
+            if (secondNumber === 0) {
+              updateDisplay("Illegal Division!");
+              return;
+            }
+            digitsArray[operatorIndex + 1] = firstNumber / secondNumber;
+            break;
+        }
+
+        // Take a step back if we had a multiplication or divison
+        operatorsArray.splice(operatorIndex, 1);
+        digitsArray.splice(operatorIndex, 1);
+        operatorIndex--;
+      }
+    }
+
+    // Then we run through addition and subtraction
+    for (var operatorIndex = 0; operatorIndex < operatorsArray.length; operatorIndex++) {
+      var firstNumber = parseFloat(digitsArray[0]);
+      var secondNumber = parseFloat(digitsArray[1]);
+
+      switch (operatorsArray[operatorIndex]) {
+        case "+":
+          digitsArray[1] = firstNumber + secondNumber;
+          break;
+        case "-":
+          digitsArray[1] = firstNumber - secondNumber;
+          break;
+      }
+
+      // Remove the element at index 0
+      digitsArray.shift();
+    }
+
+    var numberInputDOMElement = document.getElementsByClassName("number-input")[0];
+    numberInputDOMElement.value = (digitsArray[0] === digitRightOfEquals);
+
+    return digitsArray[0] === digitRightOfEquals;
   }
 
   render() {
