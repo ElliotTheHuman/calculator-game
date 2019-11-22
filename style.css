@@ -20,23 +20,31 @@ body {
 	align-items: center;
 }
 
-.row {
+.equation-container {
 	height: 30%;
+	width: 100%;
+}
+.equation {
+	height: 100%;
 	width: 100%;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
 	background-color: lightskyblue;
 }
-.row > .digit {
+.equation > .digit {
 	font-size: 2rem;
 	background-color: chartreuse;
 }
-.row > .operator {
+.equation > .operator {
 	height: 100px;
 	width: 100px;
 }
 
 .new-number-button {
-	margin: 10px;
+	margin: 10px 0;
+}
+
+.check-equation-button {
+	margin: 10px 0;
 }

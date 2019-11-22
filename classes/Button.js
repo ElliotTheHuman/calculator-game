@@ -5,7 +5,7 @@ class Button {
     this.classAttribute = classAttribute;
   }
 
-  createButtonDOMElement() {
+  render() {
     var buttonElement = document.createElement("button");
     buttonElement.append(this.label);
     buttonElement.className = this.classAttribute;

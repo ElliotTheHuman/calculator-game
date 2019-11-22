@@ -13,9 +13,7 @@ class OperatorSelect {
     return operatorOptionElement;
   }
 
-  createOperatorSelectDOMElement() {
-    var rowDivElement = document.getElementsByClassName("row")[0];
-
+  render() {
     // Create select.operator
     var operatorSelectElement = document.createElement("select");
     operatorSelectElement.className = "operator";

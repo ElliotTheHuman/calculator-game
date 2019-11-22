@@ -5,7 +5,7 @@ class Digit {
     this.digit = digit;
   }
 
-  createDigitDOMElement() {
+  render() {
     // Create div.digit
     var digitDivElement = document.createElement("div");
     digitDivElement.className = "digit";

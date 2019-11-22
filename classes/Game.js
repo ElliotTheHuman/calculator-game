@@ -1,31 +1,13 @@
 console.log("Game.js running...");
 
 class Game {
-
   constructor(number) {
-    this.number = number;
-    this.numberAsString = number + "";
-    this.digitArray = this.numberAsString.split("").map(el => parseInt(el));
-
-    this.renderGame = this.renderGame.bind(this);
-    this.setNumber = this.setNumber.bind(this);
+    this.render = this.render.bind(this);
   }
 
-  setNumber(newNumber) {
-    // Need to reset all vars again...
-    this.number = newNumber;
-    this.numberAsString = this.number + "";
-    this.digitArray = this.numberAsString.split("").map(el => parseInt(el));
-  }
-
-  renderGame() {
+  render() {
     // Select the body
     var bodyElement = document.getElementsByTagName("body")[0];
-
-    // Empty the body
-    while (bodyElement.firstChild) {
-      bodyElement.removeChild(bodyElement.firstChild);
-    }
 
     // Create a gameboard div
     var gameboardDivElement = document.createElement("div");
@@ -33,32 +15,51 @@ class Game {
     bodyElement.append(gameboardDivElement);
 
     // Create number input
-    var numberInputElement = new NumberInput();
-    gameboardDivElement.append(numberInputElement.createNumberInputDOMElement());
+    var numberInput = new NumberInput();
+    var numberInputDOMElement = numberInput.render();
+    gameboardDivElement.append(numberInputDOMElement);
 
     // Create submit button
-    var submitButtonElement = new Button("New Number Pl0x", "new-number-button");
-    gameboardDivElement.append(submitButtonElement.createButtonDOMElement());
+    var submitButton = new Button("New number, pl0x", "new-number-button");
+    var submitButtonDOMElement = submitButton.render();
+    gameboardDivElement.append(submitButtonDOMElement);
+
+    // Create div.equation-section
+    var equationContainerDOMElement = document.createElement("div");
+    equationContainerDOMElement.className = "equation-container";
+    gameboardDivElement.append(equationContainerDOMElement);
 
     // Creating row div where we'll plop our digits and operator inputs
-    var rowDivElement = document.createElement("div");
-    rowDivElement.className = "row";
-    gameboardDivElement.append(rowDivElement);
+    var equation = new Equation(100);
+    var equationDOMElement = equation.render();
+    equationContainerDOMElement.append(equationDOMElement);
 
-    // Now we append each number and operatorInput
-    for (var digitIndex = 0; digitIndex < this.digitArray.length; digitIndex++) {
-      var newDigitElement = new Digit(this.digitArray[digitIndex]);
+    // Create check answer button
+    var checkEquationButton = new Button("Check your equation", "check-equation-button");
+    var checkEquationButtonDOMElement = checkEquationButton.render();
+    gameboardDivElement.append(checkEquationButtonDOMElement);
 
-      if (digitIndex === this.digitArray.length - 1) {
-        var equalsSignElement = document.createElement("div");
-        equalsSignElement.append("=");
-        rowDivElement.append(equalsSignElement);
-      } else if (digitIndex !== 0) {
-        var newOperatorInputElement = new OperatorSelect();
-        rowDivElement.append(newOperatorInputElement.createOperatorSelectDOMElement());
+    // Add click handler to button.check-equation-button
+    checkEquationButtonDOMElement.addEventListener("click", equation.checkEquation);
+
+    // Add click handler to button.submit-button
+    submitButtonDOMElement.addEventListener("click", () => {
+      // Grab the number from the input
+      var newNumber = parseInt(numberInputDOMElement.value);
+
+      // TODO: Add a check for if there's an equation to be had from this number
+
+      if (!isNaN(newNumber)) {
+        // Empty old div.equation from the DOM
+        equationDOMElement.remove();
+
+        // Add new equation div.equation
+        equation.setNumber(newNumber);
+        equationDOMElement = equation.render();
+        equationContainerDOMElement.append(equationDOMElement);
+      } else {
+        numberInputDOMElement.value = "Not an integer, nerd";
       }
-
-      rowDivElement.append(newDigitElement.createDigitDOMElement());
-    }
+    });
   }
 }
