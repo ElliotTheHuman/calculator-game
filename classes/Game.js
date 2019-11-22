@@ -29,7 +29,10 @@ class Game {
     equationContainerDOMElement.className = "equation-container";
     gameboardDivElement.append(equationContainerDOMElement);
 
-    // Creating row div where we'll plop our digits and operator inputs
+    // generate random number equation
+    var randomNumberEquation = this.generateRandomNumberEquation(3);
+
+    // Creating div.equation where we'll plop our numbers and operator inputs
     var equation = new Equation(100);
     var equationDOMElement = equation.render();
     equationContainerDOMElement.append(equationDOMElement);
@@ -61,5 +64,53 @@ class Game {
         numberInputDOMElement.value = "Not an integer, nerd";
       }
     });
+  }
+
+  // This function will generate a nubmer that has at least one combination of legal operations
+  generateRandomNumberEquation(numberOfDigits) {
+
+    // TODO: Remove once we have full functionality
+    if (numberOfDigits < 3) {
+      console.log("Not gonna be able to do it! (in Jalen Rose's voice)");
+      return;
+    }
+
+    var equationObject = {
+      leftSide: [],
+      rightSide: null
+    }
+    var operatorsArray = ["+", "-", "*", "/"];
+
+    for (var digitIndex = 0; digitIndex < numberOfDigits; digitIndex++) {
+      var randomNumber = Math.floor(Math.random() * 9) + 1;
+
+      if (digitIndex === 0) {
+        equationObject.rightSide = randomNumber;
+      } else {
+        var randomOperationIndex = Math.floor(Math.random() * 4);
+        var randomOperation = operatorsArray[randomOperationIndex];
+
+        switch(randomOperation) {
+          case "+":
+            equationObject.rightSide += randomNumber;
+            break;
+          case "-":
+            equationObject.rightSide -= randomNumber;
+            break;
+          case "*":
+            equationObject.rightSide *= randomNumber;
+            break;
+          case "/":
+            // TODO: Find better way to find clean divisions
+            Number.isInteger(equationObject.rightSide / randomNumber) ? equationObject.rightSide /= randomNumber : equationObject.rightSide += randomNumber;
+            break;
+        }
+      }
+
+      equationObject.leftSide.push(randomNumber);
+    }
+
+    console.log(equationObject);
+    return equationObject;
   }
 }

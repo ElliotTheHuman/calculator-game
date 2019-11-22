@@ -105,7 +105,7 @@ class Equation {
 
     // Now we append each number and operatorInput
     for (var digitIndex = 0; digitIndex < this.digitArray.length; digitIndex++) {
-      var newDigitElement = new Digit(this.digitArray[digitIndex]);
+      var newDigitElement = new Number(this.digitArray[digitIndex]);
 
       if (digitIndex === this.digitArray.length - 1) {
         var equalsSignElement = document.createElement("div");

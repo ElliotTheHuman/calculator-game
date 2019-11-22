@@ -32,7 +32,7 @@ body {
 	align-items: center;
 	background-color: lightskyblue;
 }
-.equation > .digit {
+.equation > .number {
 	font-size: 2rem;
 	background-color: chartreuse;
 }
