@@ -5,10 +5,10 @@ class Number {
 
   render() {
     // Create div.number
-    var numberDivElement = document.createElement("div");
-    numberDivElement.className = "number";
-    numberDivElement.append(this.number);
+    var numberDOMElement = document.createElement("div");
+    numberDOMElement.className = "number";
+    numberDOMElement.append(this.number);
 
-    return numberDivElement;
+    return numberDOMElement;
   }
 }

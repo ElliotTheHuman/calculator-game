@@ -95,9 +95,9 @@ class Equation {
     }
 
     // Append equal sign and result
-    var equalsSignElement = document.createElement("div");
-    equalsSignElement.append("=");
-    equationDOMElement.append(equalsSignElement);
+    var equalsSignDOMElement = document.createElement("div");
+    equalsSignDOMElement.append("=");
+    equationDOMElement.append(equalsSignDOMElement);
     var resultNumber = new Number(this.rightSide);
     var resultNumberDOMElement = resultNumber.render();
     equationDOMElement.append(resultNumberDOMElement);

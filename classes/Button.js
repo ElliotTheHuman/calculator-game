@@ -6,10 +6,10 @@ class Button {
   }
 
   render() {
-    var buttonElement = document.createElement("button");
-    buttonElement.append(this.label);
-    buttonElement.className = this.classAttribute;
+    var buttonDOMElement = document.createElement("button");
+    buttonDOMElement.append(this.label);
+    buttonDOMElement.className = this.classAttribute;
 
-    return buttonElement;
+    return buttonDOMElement;
   }
 }

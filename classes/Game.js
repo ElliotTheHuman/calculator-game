@@ -7,17 +7,17 @@ class Game {
 
   render() {
     // Select the body
-    var bodyElement = document.getElementsByTagName("body")[0];
+    var bodyDOMElement = document.getElementsByTagName("body")[0];
 
     // Create a gameboard div
-    var gameboardDivElement = document.createElement("div");
-    gameboardDivElement.className = "gameboard";
-    bodyElement.append(gameboardDivElement);
+    var gameboardDOMElement = document.createElement("div");
+    gameboardDOMElement.className = "gameboard";
+    bodyDOMElement.append(gameboardDOMElement);
 
     // Create div.equation-section
     var equationContainerDOMElement = document.createElement("div");
     equationContainerDOMElement.className = "equation-container";
-    gameboardDivElement.append(equationContainerDOMElement);
+    gameboardDOMElement.append(equationContainerDOMElement);
 
     // generate random number equation
     var randomNumberEquation = this.generateRandomEquation(this.totalNumbersOnLeftHandSide);
@@ -30,7 +30,7 @@ class Game {
     // Create check answer button
     var checkEquationButton = new Button("Check your equation", "check-equation-button");
     var checkEquationButtonDOMElement = checkEquationButton.render();
-    gameboardDivElement.append(checkEquationButtonDOMElement);
+    gameboardDOMElement.append(checkEquationButtonDOMElement);
 
     // Add click handler to button.check-equation-button
     checkEquationButtonDOMElement.addEventListener("click", () => {
@@ -52,7 +52,7 @@ class Game {
     });
   }
 
-  // This function will generate a nubmer that has at least one combination of legal operations
+  // This function will generate a number that has at least one combination of legal operations
   generateRandomEquation(totalNumbersOnLeftHandSide) {
 
     // TODO: Remove once we have full functionality
@@ -67,10 +67,10 @@ class Game {
     }
     var operatorsArray = ["+", "-", "*", "/"];
 
-    for (var digitIndex = 0; digitIndex < totalNumbersOnLeftHandSide; digitIndex++) {
+    for (var numberIndex = 0; numberIndex < totalNumbersOnLeftHandSide; numberIndex++) {
       var randomNumber = Math.floor(Math.random() * 9) + 1;
 
-      if (digitIndex === 0) {
+      if (numberIndex === 0) {
         equationObject.rightSide = randomNumber;
       } else {
         var randomOperationIndex = Math.floor(Math.random() * 4);
