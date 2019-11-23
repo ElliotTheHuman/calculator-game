@@ -1,5 +1,3 @@
-console.log("Number.js running...");
-
 class Number {
   constructor(number) {
     this.number = number;

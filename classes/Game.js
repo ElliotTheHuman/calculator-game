@@ -1,7 +1,7 @@
-console.log("Game.js running...");
-
 class Game {
   constructor(number) {
+    this.totalNumbersOnLeftHandSide = 4;
+    this.score = 0;
     this.render = this.render.bind(this);
   }
 
@@ -14,26 +14,16 @@ class Game {
     gameboardDivElement.className = "gameboard";
     bodyElement.append(gameboardDivElement);
 
-    // Create number input
-    var numberInput = new NumberInput();
-    var numberInputDOMElement = numberInput.render();
-    gameboardDivElement.append(numberInputDOMElement);
-
-    // Create submit button
-    var submitButton = new Button("New number, pl0x", "new-number-button");
-    var submitButtonDOMElement = submitButton.render();
-    gameboardDivElement.append(submitButtonDOMElement);
-
     // Create div.equation-section
     var equationContainerDOMElement = document.createElement("div");
     equationContainerDOMElement.className = "equation-container";
     gameboardDivElement.append(equationContainerDOMElement);
 
     // generate random number equation
-    var randomNumberEquation = this.generateRandomNumberEquation(3);
+    var randomNumberEquation = this.generateRandomEquation(this.totalNumbersOnLeftHandSide);
 
     // Creating div.equation where we'll plop our numbers and operator inputs
-    var equation = new Equation(100);
+    var equation = new Equation(randomNumberEquation);
     var equationDOMElement = equation.render();
     equationContainerDOMElement.append(equationDOMElement);
 
@@ -43,34 +33,30 @@ class Game {
     gameboardDivElement.append(checkEquationButtonDOMElement);
 
     // Add click handler to button.check-equation-button
-    checkEquationButtonDOMElement.addEventListener("click", equation.checkEquation);
+    checkEquationButtonDOMElement.addEventListener("click", () => {
+      if(equation.checkEquation()) {
+        var newEquation = this.generateRandomEquation(this.totalNumbersOnLeftHandSide);
 
-    // Add click handler to button.submit-button
-    submitButtonDOMElement.addEventListener("click", () => {
-      // Grab the number from the input
-      var newNumber = parseInt(numberInputDOMElement.value);
-
-      // TODO: Add a check for if there's an equation to be had from this number
-
-      if (!isNaN(newNumber)) {
         // Empty old div.equation from the DOM
         equationDOMElement.remove();
 
         // Add new equation div.equation
-        equation.setNumber(newNumber);
+        equation.setEquation(newEquation);
         equationDOMElement = equation.render();
         equationContainerDOMElement.append(equationDOMElement);
+
+        console.log("Current Score:", ++this.score);
       } else {
-        numberInputDOMElement.value = "Not an integer, nerd";
+        console.log("Wrong!")
       }
     });
   }
 
   // This function will generate a nubmer that has at least one combination of legal operations
-  generateRandomNumberEquation(numberOfDigits) {
+  generateRandomEquation(totalNumbersOnLeftHandSide) {
 
     // TODO: Remove once we have full functionality
-    if (numberOfDigits < 3) {
+    if (totalNumbersOnLeftHandSide < 2) {
       console.log("Not gonna be able to do it! (in Jalen Rose's voice)");
       return;
     }
@@ -81,7 +67,7 @@ class Game {
     }
     var operatorsArray = ["+", "-", "*", "/"];
 
-    for (var digitIndex = 0; digitIndex < numberOfDigits; digitIndex++) {
+    for (var digitIndex = 0; digitIndex < totalNumbersOnLeftHandSide; digitIndex++) {
       var randomNumber = Math.floor(Math.random() * 9) + 1;
 
       if (digitIndex === 0) {
@@ -110,7 +96,6 @@ class Game {
       equationObject.leftSide.push(randomNumber);
     }
 
-    console.log(equationObject);
     return equationObject;
   }
 }

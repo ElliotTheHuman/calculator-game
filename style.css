@@ -32,9 +32,14 @@ body {
 	align-items: center;
 	background-color: lightskyblue;
 }
-.equation > .number {
+.equation > *:not(.operator) {
 	font-size: 2rem;
+}
+.equation > .number {
 	background-color: chartreuse;
+}
+.equation > .parenthesis {
+	background-color: red;
 }
 .equation > .operator {
 	height: 100px;

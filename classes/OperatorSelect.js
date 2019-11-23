@@ -1,5 +1,3 @@
-console.log("OperatorSelect.js running...");
-
 class OperatorSelect {
   constructor() {
     // nothing of note
@@ -19,7 +17,7 @@ class OperatorSelect {
     operatorSelectElement.className = "operator";
 
     // Add options to select
-    var possibleOperators = ["+", "-", "*", "/"];
+    var possibleOperators = [" ", "+", "-", "*", "/"];
     possibleOperators.map((operator) => {
       operatorSelectElement.append(this.createOperatorOption(operator));
     })
