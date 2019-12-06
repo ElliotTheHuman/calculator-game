@@ -51,7 +51,7 @@ class Equation {
         case "-":
           leftHandSideNumbers[1] = firstNumber - secondNumber;
           break;
-        case "*":
+        case "x":
           leftHandSideNumbers[1] = firstNumber * secondNumber;
           break;
         case "/":
