@@ -6,44 +6,45 @@ class Game {
   }
 
   render() {
-    // Select the body
-    var bodyDOMElement = document.getElementsByTagName("body")[0];
+    var $body = $("body");
 
-    // Create a gameboard div
-    var gameboardDOMElement = document.createElement("div");
-    gameboardDOMElement.className = "gameboard";
-    bodyDOMElement.append(gameboardDOMElement);
+    var $gameboard = $("<div>", {
+      class: "gameboard"
+    });
+    $body.append($gameboard);
 
-    // Create div.equation-section
-    var equationContainerDOMElement = document.createElement("div");
-    equationContainerDOMElement.className = "equation-container";
-    gameboardDOMElement.append(equationContainerDOMElement);
+    var $gameHeader = $("<div>", {
+      id: "game-header"
+    });
+    $gameboard.append($gameHeader);
 
-    // generate random number equation
+    var $equationContainer = $("<div>", {
+      class: "equation-container"
+    });
+    $gameboard.append($equationContainer);
+
     var randomNumberEquation = this.generateRandomEquation(this.totalNumbersOnLeftHandSide);
 
-    // Creating div.equation where we'll plop our numbers and operator inputs
     var equation = new Equation(randomNumberEquation);
-    var equationDOMElement = equation.render();
-    equationContainerDOMElement.append(equationDOMElement);
+    var $equation = equation.render();
+    $equationContainer.append($equation);
 
-    // Create check answer button
     var checkEquationButton = new Button("Check your equation", "check-equation-button");
-    var checkEquationButtonDOMElement = checkEquationButton.render();
-    gameboardDOMElement.append(checkEquationButtonDOMElement);
+    var $checkEquationButton = checkEquationButton.render();
+    $gameboard.append($checkEquationButton);
 
     // Add click handler to button.check-equation-button
-    checkEquationButtonDOMElement.addEventListener("click", () => {
+    $checkEquationButton.click(() => {
       if(equation.checkEquation()) {
         var newEquation = this.generateRandomEquation(this.totalNumbersOnLeftHandSide);
 
         // Empty old div.equation from the DOM
-        equationDOMElement.remove();
+        $equation.remove();
 
         // Add new equation div.equation
         equation.setEquation(newEquation);
-        equationDOMElement = equation.render();
-        equationContainerDOMElement.append(equationDOMElement);
+        $equation = equation.render();
+        $equationContainer.append($equation);
 
         console.log("Current Score:", ++this.score);
       } else {
@@ -83,7 +84,7 @@ class Game {
           case "-":
             equationObject.rightSide -= randomNumber;
             break;
-          case "*":
+          case "x":
             equationObject.rightSide *= randomNumber;
             break;
           case "/":

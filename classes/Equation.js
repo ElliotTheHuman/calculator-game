@@ -2,7 +2,6 @@ class Equation {
   constructor(equationObject) {
     this.leftSide = equationObject.leftSide;
     this.rightSide = equationObject.rightSide;
-
     this.checkEquation = this.checkEquation.bind(this);
   }
 
@@ -11,14 +10,23 @@ class Equation {
     this.rightSide = equationObject.rightSide;
   }
 
+  // TODO: Alter this to work with radio button
   getOperators() {
     // Grab operators
-    var operatorDOMElements = document.getElementsByClassName("operator");
+    var $operatorContainers = $(".operator-button-container");
     var operatorArray = [];
 
-    for (var i = 0; i < operatorDOMElements.length; i++) {
-      var currentOperator = operatorDOMElements[i].value;
-      operatorArray.push(currentOperator);
+    for (var operatorContainerIndex = 0; operatorContainerIndex < $operatorContainers.length; operatorContainerIndex++ ) {
+      var $currentOperatorContainer = $($operatorContainers[operatorContainerIndex]);
+      var $currentOperatorContainerChildren = $currentOperatorContainer.children();
+
+      for (var operatorIndex = 0; operatorIndex < $currentOperatorContainerChildren.length; operatorIndex+=2) {
+        var $currentOperator = $($currentOperatorContainerChildren[operatorIndex]);
+        var isCurrentOperatorChecked = $currentOperator.is(":checked");
+        if (isCurrentOperatorChecked) {
+          operatorArray.push($currentOperator.val());
+        }
+      }
     }
 
     return operatorArray;
@@ -60,11 +68,12 @@ class Equation {
 
   render() {
     // Creating row div where we'll plop our numbers and operator inputs
-    var equationDOMElement = document.createElement("div");
-    equationDOMElement.className = "equation";
+    var $equation = $("<div>", {
+      class: "equation"
+    });
 
     // Used to add parens
-    var parenthesisDOMElement = null;
+    var $parenthesis = null;
 
     // Now we append each number and operatorInput
     for (var numberIndex = 0; numberIndex < this.leftSide.length; numberIndex++) {
@@ -72,36 +81,40 @@ class Equation {
       var newNumber = new Number(this.leftSide[numberIndex]);
 
       if (numberIndex !== 0) {
-        var newOperatorInput = new OperatorSelect();
-        equationDOMElement.append(newOperatorInput.render());
+        var newOperatorInput = new Operator(numberIndex);
+        $equation.append(newOperatorInput.render());
       }
 
-      equationDOMElement.append(newNumber.render());
+      $equation.append(newNumber.render());
 
       // Adding parens
       if (numberIndex !== 0) {
         // Open paren
-        parenthesisDOMElement = document.createElement("div");
-        parenthesisDOMElement.className = "parenthesis";
-        parenthesisDOMElement.append("(");
-        equationDOMElement.insertBefore(parenthesisDOMElement, equationDOMElement.childNodes[0]);
+        $parenthesis = $("<div>", {
+          class: "parenthesis",
+          text: "("
+        });
+        $equation.prepend($parenthesis);
 
         // Closing paren
-        parenthesisDOMElement = document.createElement("div");
-        parenthesisDOMElement.className = "parenthesis";
-        parenthesisDOMElement.append(")");
-        equationDOMElement.append(parenthesisDOMElement);
+        $parenthesis = $("<div>", {
+          class: "parenthesis",
+          text: ")"
+        });
+        $equation.append($parenthesis);
       }
     }
 
     // Append equal sign and result
-    var equalsSignDOMElement = document.createElement("div");
-    equalsSignDOMElement.append("=");
-    equationDOMElement.append(equalsSignDOMElement);
-    var resultNumber = new Number(this.rightSide);
-    var resultNumberDOMElement = resultNumber.render();
-    equationDOMElement.append(resultNumberDOMElement);
+    var $equalsSign = $("<div>", {
+      text: "="
+    });
+    $equation.append($equalsSign);
 
-    return equationDOMElement;
+    var resultNumber = new Number(this.rightSide);
+    var $result = resultNumber.render();
+    $equation.append($result);
+
+    return $equation;
   }
 }

@@ -6,10 +6,11 @@ class Button {
   }
 
   render() {
-    var buttonDOMElement = document.createElement("button");
-    buttonDOMElement.append(this.label);
-    buttonDOMElement.className = this.classAttribute;
+    var $button = $("<div>", {
+      class: this.classAttribute,
+      text: this.label,
+    });
 
-    return buttonDOMElement;
+    return $button;
   }
 }

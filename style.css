@@ -16,12 +16,16 @@ body {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 }
 
+#game-header {
+	height: 20%;
+	width: 100%;
+	background-color: blueviolet;
+}
 .equation-container {
-	height: 30%;
+	height: 65%;
 	width: 100%;
 }
 .equation {
@@ -32,24 +36,44 @@ body {
 	align-items: center;
 	background-color: lightskyblue;
 }
-.equation > *:not(.operator) {
-	font-size: 2rem;
+.equation > * {
+	font-size: 2.5rem;
 }
-.equation > .number {
+.number {
 	background-color: chartreuse;
 }
-.equation > .parenthesis {
+.parenthesis {
 	background-color: red;
 }
-.equation > .operator {
-	height: 100px;
+.operator-button-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 500px;
 	width: 100px;
 }
-
-.new-number-button {
-	margin: 10px 0;
+.operator-button {
+	visibility: hidden;
+	height: 0;
+	width: 0;
 }
-
+.operator-button-label {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 20%;
+	width: 100%;
+	font-size: 1.5rem;
+	background-color: orange;
+	border: 3px black solid;
+	cursor: pointer;
+}
+.operator-button:checked + .operator-button-label {
+	background-color: blue;
+}
 .check-equation-button {
 	margin: 10px 0;
+	padding: 10px;
+	background-color: yellow;
 }

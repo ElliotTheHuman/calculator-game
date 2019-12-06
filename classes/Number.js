@@ -5,10 +5,11 @@ class Number {
 
   render() {
     // Create div.number
-    var numberDOMElement = document.createElement("div");
-    numberDOMElement.className = "number";
-    numberDOMElement.append(this.number);
+    var $number = $("<div>", {
+      class: "number"
+    });
+    $number.append(this.number);
 
-    return numberDOMElement;
+    return $number;
   }
 }
