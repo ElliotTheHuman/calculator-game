@@ -66,7 +66,7 @@ class Game {
       leftSide: [],
       rightSide: null
     }
-    var operatorsArray = ["+", "-", "*", "/"];
+    var operatorsArray = ["+", "-", "x", "/"];
 
     for (var numberIndex = 0; numberIndex < totalNumbersOnLeftHandSide; numberIndex++) {
       var randomNumber = Math.floor(Math.random() * 9) + 1;
@@ -76,7 +76,6 @@ class Game {
       } else {
         var randomOperationIndex = Math.floor(Math.random() * 4);
         var randomOperation = operatorsArray[randomOperationIndex];
-
         switch(randomOperation) {
           case "+":
             equationObject.rightSide += randomNumber;
